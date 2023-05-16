@@ -1,0 +1,1549 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ray-project.github.io/kuberay/components/operator/">
+      
+      
+        <link rel="prev" href="../../deploy/docker/">
+      
+      
+        <link rel="next" href="../apiserver/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>KubeRay Operator - KubeRay Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ray-kubernetes-operator" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="KubeRay Docs" class="md-header__button md-logo" aria-label="KubeRay Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KubeRay Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KubeRay Operator
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ray-project/kuberay" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ray-project/kuberay
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        Components
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guidance/rayservice/" class="md-tabs__link">
+        Features
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../troubleshooting/" class="md-tabs__link">
+      Troubleshooting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../design/protobuf-grpc-service/" class="md-tabs__link">
+        Design
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../development/development/" class="md-tabs__link">
+        Development
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="KubeRay Docs" class="md-nav__button md-logo" aria-label="KubeRay Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    KubeRay Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ray-project/kuberay" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ray-project/kuberay
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" tabindex="0" aria-expanded="false">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_2" tabindex="0" aria-expanded="false">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1_2_1" type="checkbox" id="__nav_1_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_2_1" tabindex="0" aria-expanded="false">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/installation/" class="md-nav__link">
+        YAML
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/helm/" class="md-nav__link">
+        Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/helm-cluster/" class="md-nav__link">
+        Helm (Cluster)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/docker/" class="md-nav__link">
+        Docker Images
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="true">
+          Components
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Components" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Components
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          KubeRay Operator
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        KubeRay Operator
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ray-cluster-creation" class="md-nav__link">
+    Ray cluster creation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ray-cluster-update" class="md-nav__link">
+    Ray cluster update
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-the-operator" class="md-nav__link">
+    Deploy the operator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-an-example-cluster" class="md-nav__link">
+    Running an example cluster
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apiserver/" class="md-nav__link">
+        KubeRay API Server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        KubeRay CLI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          Features
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Features" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Features
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/rayservice/" class="md-nav__link">
+        RayService
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/rayjob/" class="md-nav__link">
+        RayJob
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/gcs-ft/" class="md-nav__link">
+        Ray GCS Fault Tolerance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/autoscaler/" class="md-nav__link">
+        Autoscaling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_5" tabindex="0" aria-expanded="false">
+          Networking
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Networking" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Networking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/ingress/" class="md-nav__link">
+        Ingress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/tls/" class="md-nav__link">
+        TLS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_6" type="checkbox" id="__nav_3_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_6" tabindex="0" aria-expanded="false">
+          Monitoring and Observability
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Monitoring and Observability" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          Monitoring and Observability
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/prometheus-grafana/" class="md-nav__link">
+        Prometheus and Grafana
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_7" tabindex="0" aria-expanded="false">
+          Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_7">
+          <span class="md-nav__icon md-icon"></span>
+          Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/aws-eks-iam/" class="md-nav__link">
+        IAM Roles (AWS EKS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/pod-security/" class="md-nav__link">
+        Pod Security
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_8" type="checkbox" id="__nav_3_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_8" tabindex="0" aria-expanded="false">
+          Integrations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Integrations" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_8">
+          <span class="md-nav__icon md-icon"></span>
+          Integrations
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/kuberay-with-MCAD/" class="md-nav__link">
+        KubeRay with MCAD
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/volcano-integration/" class="md-nav__link">
+        KubeRay with Volcano
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/kubeflow-integration/" class="md-nav__link">
+        Kubeflow Integration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_9" type="checkbox" id="__nav_3_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_9" tabindex="0" aria-expanded="false">
+          Best Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Best Practices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_9">
+          <span class="md-nav__icon md-icon"></span>
+          Best Practices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/pod-command/" class="md-nav__link">
+        Executing Commands
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../best-practice/worker-head-reconnection/" class="md-nav__link">
+        Worker Reconnection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
+          Design
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Design" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Design
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/protobuf-grpc-service/" class="md-nav__link">
+        Core API and Backend Service
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" tabindex="0" aria-expanded="false">
+          Development
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Development
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/development/" class="md-nav__link">
+        Developer Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2" tabindex="0" aria-expanded="false">
+          Release Process
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Release Process" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          Release Process
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/release/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/changelog/" class="md-nav__link">
+        Generating the Changelog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/helm-chart/" class="md-nav__link">
+        Releasing the Helm Chart
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ray-cluster-creation" class="md-nav__link">
+    Ray cluster creation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ray-cluster-update" class="md-nav__link">
+    Ray cluster update
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-the-operator" class="md-nav__link">
+    Deploy the operator
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-an-example-cluster" class="md-nav__link">
+    Running an example cluster
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+
+
+
+
+
+<h1 id="ray-kubernetes-operator">Ray Kubernetes Operator<a class="headerlink" href="#ray-kubernetes-operator" title="Permanent link">&para;</a></h1>
+<p>The KubeRay Operator makes deploying and managing Ray clusters on top of Kubernetes painless. Clusters are defined as a custom RayCluster resource and managed by a fault-tolerant Ray controller. The KubeRay Operator automates Ray cluster lifecycle management, autoscaling, and other critical functions.</p>
+<p><img alt="Overview" src="../media/overview.png" /></p>
+<p>Below are some of the main features of the KubeRay operator:</p>
+<ul>
+<li>Management of first-class RayClusters via a <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#custom-resources">custom resource</a>.</li>
+<li>Support for heterogenous worker types in a single Ray cluster.</li>
+<li>Optional Ray Autoscaler integration; autoscaling based on Ray application semantics.</li>
+<li>Use of Kubernetes <code>PodTemplates</code> to configure Ray pods.</li>
+<li>Use of <code>ScaleStrategy</code> to remove specific Ray worker pods.</li>
+<li>Automatated management of critical configuration, such as required <code>environment variables</code>, the <code>ray start</code> entrypoint, and a <code>dev/shm</code> volume mount for Ray's shared memory.</li>
+<li>Built-in monitoring via Prometheus.</li>
+<li>Each <code>RayCluster</code>'s Status is updated based on the state of running Ray pods.</li>
+<li>Kubernetes Events concerning <code>RayCluster</code> instances are emitted to aid observability.</li>
+</ul>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>When deployed, the KubeRay Operator will watch for K8s events (Create/Delete/Update) for <code>RayCluster</code> resources. The KubeRay Operator can create a Ray cluster (Ray head pod + multiple Ray worker pods), delete a Ray cluster, or update the Ray cluster by adding or removing worker pods.</p>
+<h3 id="ray-cluster-creation">Ray cluster creation<a class="headerlink" href="#ray-cluster-creation" title="Permanent link">&para;</a></h3>
+<p>Once a <code>RayCluster</code> resource is created, the operator will configure and create the Ray head pod and the Ray worker pods specified in the <code>raycluster</code> manifest as shown below.</p>
+<p><img alt="" src="../media/create-ray-cluster.gif" /></p>
+<h3 id="ray-cluster-update">Ray cluster update<a class="headerlink" href="#ray-cluster-update" title="Permanent link">&para;</a></h3>
+<p>You can update the number of replicas in a worker group, and specify which exact replica to remove by updating the RayCluster resource manifest:</p>
+<p><img alt="" src="../media/update-ray-cluster.gif" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While updating <code>replicas</code> and <code>workersToDeleteUpdate</code> is supported, updating other fields in RayCluster manifests is <strong>not</strong> supported.
+In particular, updating Ray head pod and Ray worker pod configuration is not supported. To update pod configuration,
+delete the RayCluster, edit its configuration and then re-create the cluster. In other words,
+use <code>kubectl delete</code> and <code>kubectl create</code> to update a RayCluster's pod configuration, rather than <code>kubectl apply</code>.
+Support for in-place updates of pod configuration is tracked in KubeRay issue <a href="https://github.com/ray-project/kuberay/issues/527">#527</a>.</p>
+</div>
+<h3 id="deploy-the-operator">Deploy the operator<a class="headerlink" href="#deploy-the-operator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;github.com/ray-project/kuberay/ray-operator/config/default?ref=v0.5.0&amp;timeout=90s&quot;</span>
+</code></pre></div>
+<p>Check that the controller is running.
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>deployments<span class="w"> </span>-n<span class="w"> </span>ray-system
+NAME<span class="w">           </span>READY<span class="w">   </span>UP-TO-DATE<span class="w">   </span>AVAILABLE<span class="w">   </span>AGE
+ray-operator<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span><span class="m">1</span><span class="w">            </span><span class="m">1</span><span class="w">           </span>40s
+
+$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>ray-system
+NAME<span class="w">                            </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE
+ray-operator-75dbbf8587-5lrvn<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>31s
+</code></pre></div></p>
+<p>Delete the operator.
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;github.com/ray-project/kuberay/ray-operator/config/default&quot;</span>
+</code></pre></div></p>
+<h3 id="running-an-example-cluster">Running an example cluster<a class="headerlink" href="#running-an-example-cluster" title="Permanent link">&para;</a></h3>
+<p>We include a few example config files to deploy RayClusters:</p>
+<table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../config/samples/ray-cluster.mini.yaml">ray-cluster.mini.yaml</a></td>
+<td>Small example consisting of 1 head pod.</td>
+</tr>
+<tr>
+<td><a href="../config/samples/ray-cluster.heterogeneous.yaml">ray-cluster.heterogeneous.yaml</a></td>
+<td>Example with heterogenous worker types. 1 head pod and 2 worker pods, each of which has a different resource quota.</td>
+</tr>
+<tr>
+<td><a href="../config/samples/ray-cluster.complete.yaml">ray-cluster.complete.yaml</a></td>
+<td>Shows all available custom resource properties.</td>
+</tr>
+<tr>
+<td><a href="../config/samples/ray-cluster.autoscaler.yaml">ray-cluster.autoscaler.yaml</a></td>
+<td>Shows all available custom resource properties and demonstrates autoscaling.</td>
+</tr>
+<tr>
+<td><a href="../config/samples/ray-cluster.complete.large.yaml">ray-cluster.complete.large.yaml</a></td>
+<td>Demonstrates resource configuration for production use-cases.</td>
+</tr>
+<tr>
+<td><a href="../config/samples/ray-cluster.autoscaler.large.yaml">ray-cluster.autoscaler.large.yaml</a></td>
+<td>Demonstrates resource configuration for autoscaling Ray clusters in production.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For production use-cases, make sure to allocate sufficient resources for your Ray pods; it usually makes
+sense to run one large Ray pod per Kubernetes node. We do not recommend allocating less than 8Gb memory for a Ray pod
+running in production. Always set limits for memory and CPU. When possible, set requests equal to limits.
+See the <a href="https://docs.ray.io/en/latest/cluster/kubernetes/user-guides/config.html#resources">Ray documentation</a> for further guidance.
+See <a href="../config/samples/ray-cluster.complete.large.yaml">ray-cluster.complete.large.yaml</a> and
+<a href="../config/samples/ray-cluster.autoscaler.large.yaml">ray-cluster.autoscaler.large.yaml</a> for examples of RayCluster
+resource configurations suitable for production.
+The rest of the sample configs above are meant only for experimentation in local kind or minikube environments.</p>
+<p>The memory usage of the KubeRay Operator depends on the number of pods and Ray clusters being managed.
+Anecdotally, managing 500 Ray pods requires roughly 500MB memory. Monitor memory usage and adjust requests and limits as needed.</p>
+</div>
+<p>We recommend running the following example in a kind or minikube environment with a resource capacity of at least 4CPU and 4Gb memory.
+Run the following commands from the root of your cloned kuberay repo.
+<div class="highlight"><pre><span></span><code><span class="c1"># Clone the kuberay repo if you haven&#39;t already.</span>
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ray-project/kuberay
+<span class="c1"># Enter the root of the repo</span>
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>kuberay/
+<span class="c1"># If you haven&#39;t already done so, deploy the KubeRay operator.</span>
+$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>-k<span class="w"> </span>ray-operator/config/default
+<span class="c1"># Create a RayCluster and a ConfigMap with hello world Ray code.</span>
+$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>ray-operator/config/samples/ray-cluster.heterogeneous.yaml
+configmap/ray-code<span class="w"> </span>created
+raycluster.ray.io/raycluster-heterogeneous<span class="w"> </span>created
+
+<span class="c1"># List running clusters.</span>
+$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>rayclusters
+NAME<span class="w">                </span>AGE
+raycluster-heterogeneous<span class="w">   </span>2m48s
+
+<span class="c1"># The created cluster should include a head pod, worker pod, and a head service.</span>
+<span class="c1"># It may take a few minutes for the pods to enter Running status.</span>
+<span class="c1"># If you&#39;re on minikube or kind, a Pending status indicates that your local Kubernetes environment</span>
+<span class="c1"># may not have sufficient CPU or memory capacity -- try adjusting your Docker settings.</span>
+$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+NAME<span class="w">                                                 </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE
+raycluster-heterogeneous-head-9t28q<span class="w">                  </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>97s
+raycluster-heterogeneous-worker-medium-group-l9x9n<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>97s
+raycluster-heterogeneous-worker-small-group-hldxz<span class="w">    </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>97s
+raycluster-heterogeneous-worker-small-group-tmgtq<span class="w">    </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>97s
+raycluster-heterogeneous-worker-small-group-zc5dh<span class="w">    </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>97s
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>services
+NAME<span class="w">                                </span>TYPE<span class="w">        </span>CLUSTER-IP<span class="w">     </span>EXTERNAL-IP<span class="w">   </span>PORT<span class="o">(</span>S<span class="o">)</span><span class="w">                       </span>AGE
+kubernetes<span class="w">                          </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.0.1<span class="w">      </span>&lt;none&gt;<span class="w">        </span><span class="m">443</span>/TCP<span class="w">                       </span>22h
+raycluster-heterogeneous-head-svc<span class="w">   </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.47.129<span class="w">   </span>&lt;none&gt;<span class="w">        </span><span class="m">6379</span>/TCP,8265/TCP,10001/TCP<span class="w">   </span>2m18s
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check the logs of the head pod. (Substitute the name of your head pod in this step.)</span>
+$<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>raycluster-heterogeneous-head-9t28q
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:21:57,505<span class="w"> </span>INFO<span class="w"> </span>usage_lib.py:479<span class="w"> </span>--<span class="w"> </span>Usage<span class="w"> </span>stats<span class="w"> </span>collection<span class="w"> </span>is<span class="w"> </span>enabled<span class="w"> </span>by<span class="w"> </span>default<span class="w"> </span>without<span class="w"> </span>user<span class="w"> </span>confirmation<span class="w"> </span>because<span class="w"> </span>this<span class="w"> </span>terminal<span class="w"> </span>is<span class="w"> </span>detected<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>non-interactive.<span class="w"> </span>To<span class="w"> </span>disable<span class="w"> </span>this,<span class="w"> </span>add<span class="w"> </span><span class="sb">`</span>--disable-usage-stats<span class="sb">`</span><span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>that<span class="w"> </span>starts<span class="w"> </span>the<span class="w"> </span>cluster,<span class="w"> </span>or<span class="w"> </span>run<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>command:<span class="w"> </span><span class="sb">`</span>ray<span class="w"> </span>disable-usage-stats<span class="sb">`</span><span class="w"> </span>before<span class="w"> </span>starting<span class="w"> </span>the<span class="w"> </span>cluster.<span class="w"> </span>See<span class="w"> </span>https://docs.ray.io/en/master/cluster/usage-stats.html<span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>details.
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:21:57,505<span class="w"> </span>INFO<span class="w"> </span>scripts.py:719<span class="w"> </span>--<span class="w"> </span>Local<span class="w"> </span>node<span class="w"> </span>IP:<span class="w"> </span><span class="m">10</span>.244.0.144
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,513<span class="w"> </span>SUCC<span class="w"> </span>scripts.py:756<span class="w"> </span>--<span class="w"> </span>--------------------
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,514<span class="w"> </span>SUCC<span class="w"> </span>scripts.py:757<span class="w"> </span>--<span class="w"> </span>Ray<span class="w"> </span>runtime<span class="w"> </span>started.
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,514<span class="w"> </span>SUCC<span class="w"> </span>scripts.py:758<span class="w"> </span>--<span class="w"> </span>--------------------
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,514<span class="w"> </span>INFO<span class="w"> </span>scripts.py:760<span class="w"> </span>--<span class="w"> </span>Next<span class="w"> </span>steps
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,514<span class="w"> </span>INFO<span class="w"> </span>scripts.py:761<span class="w"> </span>--<span class="w"> </span>To<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>this<span class="w"> </span>Ray<span class="w"> </span>runtime<span class="w"> </span>from<span class="w"> </span>another<span class="w"> </span>node,<span class="w"> </span>run
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,514<span class="w"> </span>INFO<span class="w"> </span>scripts.py:766<span class="w"> </span>--<span class="w">   </span>ray<span class="w"> </span>start<span class="w"> </span>--address<span class="o">=</span><span class="s1">&#39;10.244.0.144:6379&#39;</span>
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,514<span class="w"> </span>INFO<span class="w"> </span>scripts.py:780<span class="w"> </span>--<span class="w"> </span>Alternatively,<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>Python<span class="w"> </span>code:
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,514<span class="w"> </span>INFO<span class="w"> </span>scripts.py:782<span class="w"> </span>--<span class="w"> </span>import<span class="w"> </span>ray
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,514<span class="w"> </span>INFO<span class="w"> </span>scripts.py:795<span class="w"> </span>--<span class="w"> </span>ray.init<span class="o">(</span><span class="nv">address</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span>,<span class="w"> </span><span class="nv">_node_ip_address</span><span class="o">=</span><span class="s1">&#39;10.244.0.144&#39;</span><span class="o">)</span>
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:799<span class="w"> </span>--<span class="w"> </span>To<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>this<span class="w"> </span>Ray<span class="w"> </span>runtime<span class="w"> </span>from<span class="w"> </span>outside<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>cluster,<span class="w"> </span><span class="k">for</span><span class="w"> </span>example<span class="w"> </span>to
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:803<span class="w"> </span>--<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>remote<span class="w"> </span>cluster<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span>laptop<span class="w"> </span>directly,<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span>following
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:806<span class="w"> </span>--<span class="w"> </span>Python<span class="w"> </span>code:
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:808<span class="w"> </span>--<span class="w"> </span>import<span class="w"> </span>ray
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:814<span class="w"> </span>--<span class="w"> </span>ray.init<span class="o">(</span><span class="nv">address</span><span class="o">=</span><span class="s1">&#39;ray://&lt;head_node_ip_address&gt;:10001&#39;</span><span class="o">)</span>
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:820<span class="w"> </span>--<span class="w"> </span>If<span class="w"> </span>connection<span class="w"> </span>fails,<span class="w"> </span>check<span class="w"> </span>your<span class="w"> </span>firewall<span class="w"> </span>settings<span class="w"> </span>and<span class="w"> </span>network<span class="w"> </span>configuration.
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:826<span class="w"> </span>--<span class="w"> </span>To<span class="w"> </span>terminate<span class="w"> </span>the<span class="w"> </span>Ray<span class="w"> </span>runtime,<span class="w"> </span>run
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:827<span class="w"> </span>--<span class="w">   </span>ray<span class="w"> </span>stop
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:905<span class="w"> </span>--<span class="w"> </span>--block
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:907<span class="w"> </span>--<span class="w"> </span>This<span class="w"> </span><span class="nb">command</span><span class="w"> </span>will<span class="w"> </span>now<span class="w"> </span>block<span class="w"> </span>forever<span class="w"> </span><span class="k">until</span><span class="w"> </span>terminated<span class="w"> </span>by<span class="w"> </span>a<span class="w"> </span>signal.
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:22:00,515<span class="w"> </span>INFO<span class="w"> </span>scripts.py:910<span class="w"> </span>--<span class="w"> </span>Running<span class="w"> </span>subprocesses<span class="w"> </span>are<span class="w"> </span>monitored<span class="w"> </span>and<span class="w"> </span>a<span class="w"> </span>message<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>printed<span class="w"> </span><span class="k">if</span><span class="w"> </span>any<span class="w"> </span>of<span class="w"> </span>them<span class="w"> </span>terminate<span class="w"> </span>unexpectedly.<span class="w"> </span>Subprocesses<span class="w"> </span><span class="nb">exit</span><span class="w"> </span>with<span class="w"> </span>SIGTERM<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>treated<span class="w"> </span>as<span class="w"> </span>graceful,<span class="w"> </span>thus<span class="w"> </span>NOT<span class="w"> </span>reported.
+</code></pre></div>
+<p>Now, we can run the hello world Ray code mounted from the config map created above.
+<div class="highlight"><pre><span></span><code><span class="c1"># Substitute the name of your head pod in this step.</span>
+$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>raycluster-heterogeneous-head-9t28q<span class="w"> </span>--<span class="w"> </span>python<span class="w"> </span>/opt/sample_code.py
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:28:41,176<span class="w"> </span>INFO<span class="w"> </span>worker.py:1224<span class="w"> </span>--<span class="w"> </span>Using<span class="w"> </span>address<span class="w"> </span><span class="m">127</span>.0.0.1:6379<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>environment<span class="w"> </span>variable<span class="w"> </span>RAY_ADDRESS
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:28:41,176<span class="w"> </span>INFO<span class="w"> </span>worker.py:1333<span class="w"> </span>--<span class="w"> </span>Connecting<span class="w"> </span>to<span class="w"> </span>existing<span class="w"> </span>Ray<span class="w"> </span>cluster<span class="w"> </span>at<span class="w"> </span>address:<span class="w"> </span><span class="m">10</span>.244.0.144:6379...
+<span class="m">2022</span>-09-21<span class="w"> </span><span class="m">13</span>:28:41,183<span class="w"> </span>INFO<span class="w"> </span>worker.py:1515<span class="w"> </span>--<span class="w"> </span>Connected<span class="w"> </span>to<span class="w"> </span>Ray<span class="w"> </span>cluster.<span class="w"> </span>View<span class="w"> </span>the<span class="w"> </span>dashboard<span class="w"> </span>at<span class="w"> </span>http://10.244.0.144:8265
+trying<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>Ray!
+now<span class="w"> </span>executing<span class="w"> </span>some<span class="w"> </span>code<span class="w"> </span>with<span class="w"> </span>Ray!
+Ray<span class="w"> </span>Nodes:<span class="w">  </span><span class="o">{</span><span class="s1">&#39;10.244.0.145&#39;</span>,<span class="w"> </span><span class="s1">&#39;10.244.0.143&#39;</span>,<span class="w"> </span><span class="s1">&#39;10.244.0.146&#39;</span>,<span class="w"> </span><span class="s1">&#39;10.244.0.144&#39;</span>,<span class="w"> </span><span class="s1">&#39;10.244.0.147&#39;</span><span class="o">}</span>
+Execution<span class="w"> </span><span class="nb">time</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="m">4</span>.855740308761597
+</code></pre></div></p>
+<p>The output of the hello world Ray code shows 5 nodes in the Ray cluster.
+<div class="highlight"><pre><span></span><code>Ray Nodes:  {&#39;10.244.0.145&#39;, &#39;10.244.0.143&#39;, &#39;10.244.0.146&#39;, &#39;10.244.0.144&#39;, &#39;10.244.0.147&#39;}
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code># Delete the cluster.
+$ kubectl delete raycluster raycluster-heterogeneous
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>

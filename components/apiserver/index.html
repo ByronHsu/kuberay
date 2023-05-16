@@ -1,0 +1,2595 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ray-project.github.io/kuberay/components/apiserver/">
+      
+      
+        <link rel="prev" href="../operator/">
+      
+      
+        <link rel="next" href="../cli/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>KubeRay API Server - KubeRay Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kuberay-apiserver" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="KubeRay Docs" class="md-header__button md-logo" aria-label="KubeRay Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KubeRay Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KubeRay API Server
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ray-project/kuberay" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ray-project/kuberay
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../operator/" class="md-tabs__link md-tabs__link--active">
+        Components
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guidance/rayservice/" class="md-tabs__link">
+        Features
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../troubleshooting/" class="md-tabs__link">
+      Troubleshooting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../design/protobuf-grpc-service/" class="md-tabs__link">
+        Design
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../development/development/" class="md-tabs__link">
+        Development
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="KubeRay Docs" class="md-nav__button md-logo" aria-label="KubeRay Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    KubeRay Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ray-project/kuberay" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ray-project/kuberay
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" tabindex="0" aria-expanded="false">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_2" tabindex="0" aria-expanded="false">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1_2_1" type="checkbox" id="__nav_1_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_2_1" tabindex="0" aria-expanded="false">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/installation/" class="md-nav__link">
+        YAML
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/helm/" class="md-nav__link">
+        Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/helm-cluster/" class="md-nav__link">
+        Helm (Cluster)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/docker/" class="md-nav__link">
+        Docker Images
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="true">
+          Components
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Components" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Components
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operator/" class="md-nav__link">
+        KubeRay Operator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          KubeRay API Server
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        KubeRay API Server
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#helm" class="md-nav__link">
+    Helm
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-kuberay-apiserver" class="md-nav__link">
+    Install KubeRay APIServer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-the-chart" class="md-nav__link">
+    List the chart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall-the-chart" class="md-nav__link">
+    Uninstall the Chart
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-end-to-end-test" class="md-nav__link">
+    Setup end-to-end test
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-definition-of-payload" class="md-nav__link">
+    Full definition of payload
+  </a>
+  
+    <nav class="md-nav" aria-label="Full definition of payload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compute-template" class="md-nav__link">
+    Compute Template
+  </a>
+  
+    <nav class="md-nav" aria-label="Compute Template">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-compute-templates-in-a-given-namespace" class="md-nav__link">
+    Create compute templates in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-compute-templates-in-a-given-namespace" class="md-nav__link">
+    List all compute templates in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-compute-templates-in-all-namespaces" class="md-nav__link">
+    List all compute templates in all namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-compute-template-by-name" class="md-nav__link">
+    Get compute template by name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-compute-template-by-name" class="md-nav__link">
+    Delete compute template by name
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clusters" class="md-nav__link">
+    Clusters
+  </a>
+  
+    <nav class="md-nav" aria-label="Clusters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-cluster-in-a-given-namespace" class="md-nav__link">
+    Create cluster in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-clusters-in-a-given-namespace" class="md-nav__link">
+    List all clusters in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-clusters-in-all-namespaces" class="md-nav__link">
+    List all clusters in all namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-cluster-by-its-name-and-namespace" class="md-nav__link">
+    Get cluster by its name and namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-cluster-by-its-name-and-namespace" class="md-nav__link">
+    Delete cluster by its name and namespace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rayjob" class="md-nav__link">
+    RayJob
+  </a>
+  
+    <nav class="md-nav" aria-label="RayJob">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-ray-job-in-a-given-namespace" class="md-nav__link">
+    Create ray job in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-jobs-in-a-given-namespace" class="md-nav__link">
+    List all jobs in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-jobs-in-all-namespaces" class="md-nav__link">
+    List all jobs in all namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-job-by-its-name-and-namespace" class="md-nav__link">
+    Get job by its name and namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-job-by-its-name-and-namespace" class="md-nav__link">
+    Delete job by its name and namespace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rayservice" class="md-nav__link">
+    RayService
+  </a>
+  
+    <nav class="md-nav" aria-label="RayService">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-ray-service-in-a-given-namespace" class="md-nav__link">
+    Create ray service in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-services-in-a-given-namespace" class="md-nav__link">
+    List all services in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-services-in-all-namespaces" class="md-nav__link">
+    List all services in all namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-service-by-its-name-and-namespace" class="md-nav__link">
+    Get service by its name and namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-service-by-its-name-and-namespace" class="md-nav__link">
+    Delete service by its name and namespace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#swagger-support" class="md-nav__link">
+    Swagger Support
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        KubeRay CLI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          Features
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Features" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Features
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/rayservice/" class="md-nav__link">
+        RayService
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/rayjob/" class="md-nav__link">
+        RayJob
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/gcs-ft/" class="md-nav__link">
+        Ray GCS Fault Tolerance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/autoscaler/" class="md-nav__link">
+        Autoscaling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_5" tabindex="0" aria-expanded="false">
+          Networking
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Networking" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Networking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/ingress/" class="md-nav__link">
+        Ingress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/tls/" class="md-nav__link">
+        TLS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_6" type="checkbox" id="__nav_3_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_6" tabindex="0" aria-expanded="false">
+          Monitoring and Observability
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Monitoring and Observability" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          Monitoring and Observability
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/prometheus-grafana/" class="md-nav__link">
+        Prometheus and Grafana
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_7" tabindex="0" aria-expanded="false">
+          Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_7">
+          <span class="md-nav__icon md-icon"></span>
+          Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/aws-eks-iam/" class="md-nav__link">
+        IAM Roles (AWS EKS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/pod-security/" class="md-nav__link">
+        Pod Security
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_8" type="checkbox" id="__nav_3_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_8" tabindex="0" aria-expanded="false">
+          Integrations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Integrations" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_8">
+          <span class="md-nav__icon md-icon"></span>
+          Integrations
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/kuberay-with-MCAD/" class="md-nav__link">
+        KubeRay with MCAD
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/volcano-integration/" class="md-nav__link">
+        KubeRay with Volcano
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/kubeflow-integration/" class="md-nav__link">
+        Kubeflow Integration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_9" type="checkbox" id="__nav_3_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_9" tabindex="0" aria-expanded="false">
+          Best Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Best Practices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_9">
+          <span class="md-nav__icon md-icon"></span>
+          Best Practices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidance/pod-command/" class="md-nav__link">
+        Executing Commands
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../best-practice/worker-head-reconnection/" class="md-nav__link">
+        Worker Reconnection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
+          Design
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Design" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Design
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/protobuf-grpc-service/" class="md-nav__link">
+        Core API and Backend Service
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" tabindex="0" aria-expanded="false">
+          Development
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Development
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/development/" class="md-nav__link">
+        Developer Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2" tabindex="0" aria-expanded="false">
+          Release Process
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Release Process" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          Release Process
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/release/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/changelog/" class="md-nav__link">
+        Generating the Changelog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/helm-chart/" class="md-nav__link">
+        Releasing the Helm Chart
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#helm" class="md-nav__link">
+    Helm
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-kuberay-apiserver" class="md-nav__link">
+    Install KubeRay APIServer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-the-chart" class="md-nav__link">
+    List the chart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uninstall-the-chart" class="md-nav__link">
+    Uninstall the Chart
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-end-to-end-test" class="md-nav__link">
+    Setup end-to-end test
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-definition-of-payload" class="md-nav__link">
+    Full definition of payload
+  </a>
+  
+    <nav class="md-nav" aria-label="Full definition of payload">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compute-template" class="md-nav__link">
+    Compute Template
+  </a>
+  
+    <nav class="md-nav" aria-label="Compute Template">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-compute-templates-in-a-given-namespace" class="md-nav__link">
+    Create compute templates in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-compute-templates-in-a-given-namespace" class="md-nav__link">
+    List all compute templates in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-compute-templates-in-all-namespaces" class="md-nav__link">
+    List all compute templates in all namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-compute-template-by-name" class="md-nav__link">
+    Get compute template by name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-compute-template-by-name" class="md-nav__link">
+    Delete compute template by name
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clusters" class="md-nav__link">
+    Clusters
+  </a>
+  
+    <nav class="md-nav" aria-label="Clusters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-cluster-in-a-given-namespace" class="md-nav__link">
+    Create cluster in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-clusters-in-a-given-namespace" class="md-nav__link">
+    List all clusters in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-clusters-in-all-namespaces" class="md-nav__link">
+    List all clusters in all namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-cluster-by-its-name-and-namespace" class="md-nav__link">
+    Get cluster by its name and namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-cluster-by-its-name-and-namespace" class="md-nav__link">
+    Delete cluster by its name and namespace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rayjob" class="md-nav__link">
+    RayJob
+  </a>
+  
+    <nav class="md-nav" aria-label="RayJob">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-ray-job-in-a-given-namespace" class="md-nav__link">
+    Create ray job in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-jobs-in-a-given-namespace" class="md-nav__link">
+    List all jobs in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-jobs-in-all-namespaces" class="md-nav__link">
+    List all jobs in all namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-job-by-its-name-and-namespace" class="md-nav__link">
+    Get job by its name and namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-job-by-its-name-and-namespace" class="md-nav__link">
+    Delete job by its name and namespace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rayservice" class="md-nav__link">
+    RayService
+  </a>
+  
+    <nav class="md-nav" aria-label="RayService">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-ray-service-in-a-given-namespace" class="md-nav__link">
+    Create ray service in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-services-in-a-given-namespace" class="md-nav__link">
+    List all services in a given namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-services-in-all-namespaces" class="md-nav__link">
+    List all services in all namespaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-service-by-its-name-and-namespace" class="md-nav__link">
+    Get service by its name and namespace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-service-by-its-name-and-namespace" class="md-nav__link">
+    Delete service by its name and namespace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#swagger-support" class="md-nav__link">
+    Swagger Support
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+
+
+
+
+
+<h1 id="kuberay-apiserver">KubeRay APIServer<a class="headerlink" href="#kuberay-apiserver" title="Permanent link">&para;</a></h1>
+<p>The KubeRay APIServer provides gRPC and HTTP APIs to manage KubeRay resources.</p>
+<p><strong>Note</strong></p>
+<div class="highlight"><pre><span></span><code>The KubeRay APIServer is an optional component. It provides a layer of simplified
+configuration for KubeRay resources. The KubeRay API server is used internally
+by some organizations to back user interfaces for KubeRay resource management.
+
+The KubeRay APIServer is community-managed and is not officially endorsed by the
+Ray maintainers. At this time, the only officially supported methods for
+managing KubeRay resources are
+
+- Direct management of KubeRay custom resources via kubectl, kustomize, and Kubernetes language clients.
+- Helm charts.
+
+KubeRay APIServer maintainer contacts (GitHub handles):
+@Jeffwan @scarlet25151
+</code></pre></div>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<h3 id="helm">Helm<a class="headerlink" href="#helm" title="Permanent link">&para;</a></h3>
+<p>Make sure the version of Helm is v3+. Currently, <a href="https://github.com/ray-project/kuberay/blob/master/.github/workflows/helm-lint.yaml">existing CI tests</a> are based on Helm v3.4.1 and v3.9.4.</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>version
+</code></pre></div>
+<h3 id="install-kuberay-apiserver">Install KubeRay APIServer<a class="headerlink" href="#install-kuberay-apiserver" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Install a stable version via Helm repository (only supports KubeRay v0.4.0+)
+  <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>kuberay<span class="w"> </span>https://ray-project.github.io/kuberay-helm/
+
+<span class="c1"># Install KubeRay APIServer v0.5.0.</span>
+helm<span class="w"> </span>install<span class="w"> </span>kuberay-apiserver<span class="w"> </span>kuberay/kuberay-apiserver<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0
+
+<span class="c1"># Check the KubeRay APIServer Pod in `default` namespace</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods
+<span class="c1"># NAME                                 READY   STATUS    RESTARTS   AGE</span>
+<span class="c1"># kuberay-apiserver-67b46b88bf-m7dzg   1/1     Running   0          6s</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Install the nightly version
+  <div class="highlight"><pre><span></span><code><span class="c1"># Step1: Clone KubeRay repository</span>
+
+<span class="c1"># Step2: Move to `helm-chart/kuberay-apiserver`</span>
+
+<span class="c1"># Step3: Install KubeRay APIServer</span>
+helm<span class="w"> </span>install<span class="w"> </span>kuberay-apiserver<span class="w"> </span>.
+</code></pre></div></p>
+</li>
+</ul>
+<h3 id="list-the-chart">List the chart<a class="headerlink" href="#list-the-chart" title="Permanent link">&para;</a></h3>
+<p>To list the <code>my-release</code> deployment:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>ls
+<span class="c1"># NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS  CHART                    APP VERSION</span>
+<span class="c1"># kuberay-apiserver       default         1               2023-02-07 09:28:15.510869781 -0500 EST deployedkuberay-apiserver-0.5.0</span>
+</code></pre></div>
+<h3 id="uninstall-the-chart">Uninstall the Chart<a class="headerlink" href="#uninstall-the-chart" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Uninstall the `kuberay-apiserver` release</span>
+helm<span class="w"> </span>uninstall<span class="w"> </span>kuberay-apiserver
+
+<span class="c1"># The KubeRay APIServer Pod should be removed.</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods
+<span class="c1"># No resources found in default namespace.</span>
+</code></pre></div>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>After the deployment we may use the <code>{{baseUrl}}</code> to access the</p>
+<ul>
+<li>
+<p>(default) for nodeport access, we provide the default http port <code>31888</code> for connection and you can connect it using.</p>
+</li>
+<li>
+<p>for ingress access, you will need to create your own ingress</p>
+</li>
+</ul>
+<p>The requests parameters detail can be seen in <a href="https://github.com/ray-project/kuberay/tree/master/proto/swagger">KubeRay swagger</a>, here we only present some basic example:</p>
+<h3 id="setup-end-to-end-test">Setup end-to-end test<a class="headerlink" href="#setup-end-to-end-test" title="Permanent link">&para;</a></h3>
+<ol>
+<li>(Optional) You may use your local kind cluster or minikube</li>
+</ol>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kind create cluster --name ray-test --config -</span>
+<span class="s">kind: Cluster</span>
+<span class="s">apiVersion: kind.x-k8s.io/v1alpha4</span>
+<span class="s">nodes:</span>
+<span class="s">  - role: control-plane</span>
+<span class="s">    kubeadmConfigPatches:</span>
+<span class="s">      - |</span>
+<span class="s">        kind: InitConfiguration</span>
+<span class="s">        nodeRegistration:</span>
+<span class="s">          kubeletExtraArgs:</span>
+<span class="s">            node-labels: &quot;ingress-ready=true&quot;</span>
+<span class="s">    extraPortMappings:</span>
+<span class="s">      - containerPort: 30379</span>
+<span class="s">        hostPort: 6379</span>
+<span class="s">        listenAddress: &quot;0.0.0.0&quot;</span>
+<span class="s">        protocol: tcp</span>
+<span class="s">      - containerPort: 30265</span>
+<span class="s">        hostPort: 8265</span>
+<span class="s">        listenAddress: &quot;0.0.0.0&quot;</span>
+<span class="s">        protocol: tcp</span>
+<span class="s">      - containerPort: 30001</span>
+<span class="s">        hostPort: 10001</span>
+<span class="s">        listenAddress: &quot;0.0.0.0&quot;</span>
+<span class="s">        protocol: tcp</span>
+<span class="s">      - containerPort: 8000</span>
+<span class="s">        hostPort: 8000</span>
+<span class="s">        listenAddress: &quot;0.0.0.0&quot;</span>
+<span class="s">      - containerPort: 31888</span>
+<span class="s">        hostPort: 31888</span>
+<span class="s">        listenAddress: &quot;0.0.0.0&quot;</span>
+<span class="s">  - role: worker</span>
+<span class="s">  - role: worker</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<ol>
+<li>Deploy the KubeRay APIServer within the same cluster of KubeRay operator</li>
+</ol>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>kuberay<span class="w"> </span>https://ray-project.github.io/kuberay-helm/
+helm<span class="w"> </span>-n<span class="w"> </span>ray-system<span class="w"> </span>install<span class="w"> </span>kuberay-apiserver<span class="w"> </span>kuberay/kuberay-apiserver
+</code></pre></div>
+<ol>
+<li>The APIServer expose service using <code>NodePort</code> by default. You can test access by your host and port, the default port is set to <code>31888</code>.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>curl localhost:31888
+{&quot;code&quot;:5, &quot;message&quot;:&quot;Not Found&quot;}
+</code></pre></div>
+<ol>
+<li>You can create <code>RayCluster</code>, <code>RayJobs</code> or <code>RayService</code> by dialing the endpoints. The following is a simple example for creating the <code>RayService</code> object, follow <a href="https://ray-project.github.io/kuberay/components/apiserver/#swagger-support">swagger support</a> to get the complete definitions of APIs.</li>
+</ol>
+<p><div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s1">&#39;localhost:31888/apis/v1alpha2/namespaces/ray-system/compute_templates&#39;</span><span class="w"> </span><span class="se">\</span>
+--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+--data<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">  &quot;name&quot;: &quot;default-template&quot;,</span>
+<span class="s1">  &quot;namespace&quot;: &quot;ray-system&quot;,</span>
+<span class="s1">  &quot;cpu&quot;: 2,</span>
+<span class="s1">  &quot;memory&quot;: 4</span>
+<span class="s1">}&#39;</span>
+
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s1">&#39;localhost:31888/apis/v1alpha2/namespaces/ray-system/services&#39;</span><span class="w"> </span><span class="se">\</span>
+--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+--data<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">  &quot;name&quot;: &quot;user-test-1&quot;,</span>
+<span class="s1">  &quot;namespace&quot;: &quot;ray-system&quot;,</span>
+<span class="s1">  &quot;user&quot;: &quot;user&quot;,</span>
+<span class="s1">  &quot;serveDeploymentGraphSpec&quot;: {</span>
+<span class="s1">      &quot;importPath&quot;: &quot;fruit.deployment_graph&quot;,</span>
+<span class="s1">      &quot;runtimeEnv&quot;: &quot;working_dir: \&quot;https://github.com/ray-project/test_dag/archive/c620251044717ace0a4c19d766d43c5099af8a77.zip\&quot;\n&quot;,</span>
+<span class="s1">      &quot;serveConfigs&quot;: [</span>
+<span class="s1">      {</span>
+<span class="s1">        &quot;deploymentName&quot;: &quot;OrangeStand&quot;,</span>
+<span class="s1">        &quot;replicas&quot;: 1,</span>
+<span class="s1">        &quot;userConfig&quot;: &quot;price: 2&quot;,</span>
+<span class="s1">        &quot;actorOptions&quot;: {</span>
+<span class="s1">          &quot;cpusPerActor&quot;: 0.1</span>
+<span class="s1">        }</span>
+<span class="s1">      },</span>
+<span class="s1">      {</span>
+<span class="s1">        &quot;deploymentName&quot;: &quot;PearStand&quot;,</span>
+<span class="s1">        &quot;replicas&quot;: 1,</span>
+<span class="s1">        &quot;userConfig&quot;: &quot;price: 1&quot;,</span>
+<span class="s1">        &quot;actorOptions&quot;: {</span>
+<span class="s1">          &quot;cpusPerActor&quot;: 0.1</span>
+<span class="s1">        }</span>
+<span class="s1">      },</span>
+<span class="s1">      {</span>
+<span class="s1">        &quot;deploymentName&quot;: &quot;FruitMarket&quot;,</span>
+<span class="s1">        &quot;replicas&quot;: 1,</span>
+<span class="s1">        &quot;actorOptions&quot;: {</span>
+<span class="s1">          &quot;cpusPerActor&quot;: 0.1</span>
+<span class="s1">        }</span>
+<span class="s1">      },{</span>
+<span class="s1">        &quot;deploymentName&quot;: &quot;DAGDriver&quot;,</span>
+<span class="s1">        &quot;replicas&quot;: 1,</span>
+<span class="s1">        &quot;routePrefix&quot;: &quot;/&quot;,</span>
+<span class="s1">        &quot;actorOptions&quot;: {</span>
+<span class="s1">          &quot;cpusPerActor&quot;: 0.1</span>
+<span class="s1">        }</span>
+<span class="s1">      }]</span>
+<span class="s1">  },</span>
+<span class="s1">  &quot;clusterSpec&quot;: {</span>
+<span class="s1">    &quot;headGroupSpec&quot;: {</span>
+<span class="s1">      &quot;computeTemplate&quot;: &quot;default-template&quot;,</span>
+<span class="s1">      &quot;image&quot;: &quot;rayproject/ray:2.4.0&quot;,</span>
+<span class="s1">      &quot;serviceType&quot;: &quot;NodePort&quot;,</span>
+<span class="s1">      &quot;rayStartParams&quot;: {</span>
+<span class="s1">            &quot;dashboard-host&quot;: &quot;0.0.0.0&quot;,</span>
+<span class="s1">            &quot;metrics-export-port&quot;: &quot;8080&quot;</span>
+<span class="s1">        },</span>
+<span class="s1">       &quot;volumes&quot;: []</span>
+<span class="s1">    },</span>
+<span class="s1">    &quot;workerGroupSpec&quot;: [</span>
+<span class="s1">      {</span>
+<span class="s1">        &quot;groupName&quot;: &quot;small-wg&quot;,</span>
+<span class="s1">        &quot;computeTemplate&quot;: &quot;default-template&quot;,</span>
+<span class="s1">        &quot;image&quot;: &quot;rayproject/ray:2.4.0&quot;,</span>
+<span class="s1">        &quot;replicas&quot;: 1,</span>
+<span class="s1">        &quot;minReplicas&quot;: 0,</span>
+<span class="s1">        &quot;maxReplicas&quot;: 5,</span>
+<span class="s1">        &quot;rayStartParams&quot;: {</span>
+<span class="s1">                &quot;node-ip-address&quot;: &quot;$MY_POD_IP&quot;</span>
+<span class="s1">            }</span>
+<span class="s1">      }</span>
+<span class="s1">    ]</span>
+<span class="s1">  }</span>
+<span class="s1">}&#39;</span>
+</code></pre></div>
+The Ray resource will then be created in your Kubernetes cluster.</p>
+<h2 id="full-definition-of-payload">Full definition of payload<a class="headerlink" href="#full-definition-of-payload" title="Permanent link">&para;</a></h2>
+<h3 id="compute-template">Compute Template<a class="headerlink" href="#compute-template" title="Permanent link">&para;</a></h3>
+<p>For the purpose to simplify the setting of resource, we abstract the resource
+of the pods template resource to the <code>compute template</code> for usage, you can
+define the resource in the <code>compute template</code> and then choose the appropriate
+template for your <code>head</code> and <code>workergroup</code> when you are creating the real objects of <code>RayCluster</code>, <code>RayJobs</code> or <code>RayService</code>.</p>
+<h4 id="create-compute-templates-in-a-given-namespace">Create compute templates in a given namespace<a class="headerlink" href="#create-compute-templates-in-a-given-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>POST {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/compute_templates
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default-template&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;namespace&gt;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;gpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;gpuAccelerator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tesla-V100&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="list-all-compute-templates-in-a-given-namespace">List all compute templates in a given namespace<a class="headerlink" href="#list-all-compute-templates-in-a-given-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/compute_templates
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;compute_templates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default-template&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;namespace&gt;&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;cpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;gpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;gpu_accelerator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tesla-V100&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="list-all-compute-templates-in-all-namespaces">List all compute templates in all namespaces<a class="headerlink" href="#list-all-compute-templates-in-all-namespaces" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/compute_templates
+</code></pre></div>
+<h4 id="get-compute-template-by-name">Get compute template by name<a class="headerlink" href="#get-compute-template-by-name" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/compute_templates/&lt;compute_template_name&gt;
+</code></pre></div>
+<h4 id="delete-compute-template-by-name">Delete compute template by name<a class="headerlink" href="#delete-compute-template-by-name" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>DELETE {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/compute_templates/&lt;compute_template_name&gt;
+</code></pre></div>
+<h3 id="clusters">Clusters<a class="headerlink" href="#clusters" title="Permanent link">&para;</a></h3>
+<h4 id="create-cluster-in-a-given-namespace">Create cluster in a given namespace<a class="headerlink" href="#create-cluster-in-a-given-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>POST {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/clusters
+</code></pre></div>
+<p>payload
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test-cluster&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;namespace&gt;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jiaxin.shan&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.9.2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DEV&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;clusterSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;headGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;head-template&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ray.io/ray:1.9.2&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;serviceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NodePort&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;workerGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;groupName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;small-wg&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;worker-template&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ray.io/ray:1.9.2&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;minReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maxReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="list-all-clusters-in-a-given-namespace">List all clusters in a given namespace<a class="headerlink" href="#list-all-clusters-in-a-given-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/clusters
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;clusters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test-cluster&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;namespace&gt;&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jiaxin.shan&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.9.2&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DEV&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;cluster_spec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;head_group_spec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;compute_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;head-template&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rayproject/ray:1.9.2&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;service_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NodePort&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;ray_start_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="nt">&quot;dashboard-host&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;node-ip-address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$MY_POD_IP&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;port&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;6379&quot;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;worker_group_spec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                        </span><span class="nt">&quot;group_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;small-wg&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;compute_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;worker-template&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rayproject/ray:1.9.2&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;min_replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;max_replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">                        </span><span class="nt">&quot;ray_start_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="nt">&quot;node-ip-address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$MY_POD_IP&quot;</span><span class="p">,</span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">]</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-03-13T15:13:09Z&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;deleted_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="list-all-clusters-in-all-namespaces">List all clusters in all namespaces<a class="headerlink" href="#list-all-clusters-in-all-namespaces" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/clusters
+</code></pre></div>
+<h4 id="get-cluster-by-its-name-and-namespace">Get cluster by its name and namespace<a class="headerlink" href="#get-cluster-by-its-name-and-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/clusters/&lt;cluster_name&gt;
+</code></pre></div>
+<h4 id="delete-cluster-by-its-name-and-namespace">Delete cluster by its name and namespace<a class="headerlink" href="#delete-cluster-by-its-name-and-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>DELETE {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/clusters/&lt;cluster_name&gt;
+</code></pre></div>
+<h3 id="rayjob">RayJob<a class="headerlink" href="#rayjob" title="Permanent link">&para;</a></h3>
+<h4 id="create-ray-job-in-a-given-namespace">Create ray job in a given namespace<a class="headerlink" href="#create-ray-job-in-a-given-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>POST {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/jobs
+</code></pre></div>
+<p>payload
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;entrypoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;runtimeEnv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;jobId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;shutdownAfterJobFinishes&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;clusterSelector&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;clusterSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;headGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;serviceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;volumes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;mountPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;volumeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERSISTENT_VOLUME_CLAIM&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;readOnly&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;hostPathType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIRECTORY&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;mountPropagationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NONE&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;workerGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;groupName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;minReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maxReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;volumes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;mountPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;volumeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERSISTENT_VOLUME_CLAIM&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;readOnly&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;hostPathType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIRECTORY&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;mountPropagationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NONE&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;ttlSecondsAfterFinished&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:20:30.494Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;deleteAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:20:30.494Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;jobStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;jobDeploymentStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="list-all-jobs-in-a-given-namespace">List all jobs in a given namespace<a class="headerlink" href="#list-all-jobs-in-a-given-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/jobs
+</code></pre></div>
+<p>Response
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;entrypoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;runtimeEnv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;jobId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;shutdownAfterJobFinishes&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;clusterSelector&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;clusterSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;headGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;serviceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="nt">&quot;volumes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;mountPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;volumeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERSISTENT_VOLUME_CLAIM&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;readOnly&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;hostPathType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIRECTORY&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;mountPropagationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NONE&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">]</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;workerGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;groupName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;minReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;maxReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;volumes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;mountPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;volumeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERSISTENT_VOLUME_CLAIM&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;readOnly&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;hostPathType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIRECTORY&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;mountPropagationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NONE&quot;</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;ttlSecondsAfterFinished&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:31:24.352Z&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;deleteAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:31:24.352Z&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;jobStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;jobDeploymentStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="list-all-jobs-in-all-namespaces">List all jobs in all namespaces<a class="headerlink" href="#list-all-jobs-in-all-namespaces" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/jobs
+</code></pre></div>
+<h4 id="get-job-by-its-name-and-namespace">Get job by its name and namespace<a class="headerlink" href="#get-job-by-its-name-and-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/jobs/&lt;job_name&gt;
+</code></pre></div>
+<h4 id="delete-job-by-its-name-and-namespace">Delete job by its name and namespace<a class="headerlink" href="#delete-job-by-its-name-and-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>DELETE {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/jobs/&lt;job_name&gt;
+</code></pre></div>
+<h3 id="rayservice">RayService<a class="headerlink" href="#rayservice" title="Permanent link">&para;</a></h3>
+<h4 id="create-ray-service-in-a-given-namespace">Create ray service in a given namespace<a class="headerlink" href="#create-ray-service-in-a-given-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>POST {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/services
+</code></pre></div>
+<p>payload</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;serveDeploymentGraphSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;importPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;runtimeEnv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;serveConfigs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;deploymentName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;routePrefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maxConcurrentQueries&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;userConfig&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;autoscalingConfig&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;actorOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;runtimeEnv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;cpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;gpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;objectStoreMemory&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;accceleratorType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;clusterSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;headGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;serviceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;volumes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;mountPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;volumeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERSISTENT_VOLUME_CLAIM&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;readOnly&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;hostPathType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIRECTORY&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;mountPropagationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NONE&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;workerGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;groupName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;minReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maxReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;volumes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;mountPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;volumeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERSISTENT_VOLUME_CLAIM&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;readOnly&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;hostPathType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIRECTORY&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;mountPropagationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NONE&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;rayServiceStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;applicationStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;applicationMessage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;serveDeploymentStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;deploymentName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;rayServiceEvent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:30:01.097Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;firstTimestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:30:01.097Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;lastTimestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:30:01.097Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;rayClusterName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rayClusterState&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;serviceEndpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:30:01.097Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;deleteAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:30:01.097Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="list-all-services-in-a-given-namespace">List all services in a given namespace<a class="headerlink" href="#list-all-services-in-a-given-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/services
+</code></pre></div>
+<p>Response
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;serveDeploymentGraphSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;importPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;runtimeEnv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;serveConfigs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;deploymentName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;routePrefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maxConcurrentQueries&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;userConfig&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;autoscalingConfig&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;actorOptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;runtimeEnv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;cpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;gpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;objectStoreMemory&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;accceleratorType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;clusterSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;headGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;serviceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;volumes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;mountPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;volumeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERSISTENT_VOLUME_CLAIM&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;readOnly&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;hostPathType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIRECTORY&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;mountPropagationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NONE&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;workerGroupSpec&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;groupName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;computeTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;replicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;minReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;maxReplicas&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;rayStartParams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;volumes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;mountPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;volumeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PERSISTENT_VOLUME_CLAIM&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;readOnly&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;hostPathType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DIRECTORY&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;mountPropagationMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NONE&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;rayServiceStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;applicationStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;applicationMessage&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;serveDeploymentStatus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;deploymentName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;rayServiceEvent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:33:15.485Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;firstTimestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:33:15.485Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;lastTimestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:33:15.485Z&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;rayClusterName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rayClusterState&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;serviceEndpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;additionalProp1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;additionalProp2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;additionalProp3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:33:15.485Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;deleteAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-08-19T21:33:15.485Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="list-all-services-in-all-namespaces">List all services in all namespaces<a class="headerlink" href="#list-all-services-in-all-namespaces" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/services
+</code></pre></div>
+<h4 id="get-service-by-its-name-and-namespace">Get service by its name and namespace<a class="headerlink" href="#get-service-by-its-name-and-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>GET {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/services/&lt;service_name&gt;
+</code></pre></div>
+<h4 id="delete-service-by-its-name-and-namespace">Delete service by its name and namespace<a class="headerlink" href="#delete-service-by-its-name-and-namespace" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>DELETE {{baseUrl}}/apis/v1alpha2/namespaces/&lt;namespace&gt;/services/&lt;service_name&gt;
+</code></pre></div>
+<h2 id="swagger-support">Swagger Support<a class="headerlink" href="#swagger-support" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Download Swagger UI from <a href="https://swagger.io/tools/swagger-ui/download/">Swagger-UI</a>. In this case, we use <code>swagger-ui-3.51.2.tar.gz</code></li>
+<li>Unzip package and copy <code>dist</code> folder to <code>third_party</code> folder</li>
+<li>Use <code>go-bindata</code> to generate go code from static files.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>mkdir third_party
+tar -zvxf ~/Downloads/swagger-ui-3.51.2.tar.gz /tmp
+mv /tmp/swagger-ui-3.51.2/dist  third_party/swagger-ui
+
+cd apiserver/
+go-bindata --nocompress --pkg swagger -o pkg/swagger/datafile.go ./third_party/swagger-ui/...
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>

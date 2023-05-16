@@ -1,0 +1,1734 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://ray-project.github.io/kuberay/guidance/volcano-integration/">
+      
+      
+        <link rel="prev" href="../kuberay-with-MCAD/">
+      
+      
+        <link rel="next" href="../kubeflow-integration/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>KubeRay with Volcano - KubeRay Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kuberay-integration-with-volcano" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="KubeRay Docs" class="md-header__button md-logo" aria-label="KubeRay Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KubeRay Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KubeRay with Volcano
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ray-project/kuberay" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ray-project/kuberay
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../components/operator/" class="md-tabs__link">
+        Components
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../rayservice/" class="md-tabs__link md-tabs__link--active">
+        Features
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../troubleshooting/" class="md-tabs__link">
+      Troubleshooting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../design/protobuf-grpc-service/" class="md-tabs__link">
+        Design
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../development/development/" class="md-tabs__link">
+        Development
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="KubeRay Docs" class="md-nav__button md-logo" aria-label="KubeRay Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    KubeRay Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ray-project/kuberay" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ray-project/kuberay
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" tabindex="0" aria-expanded="false">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_2" tabindex="0" aria-expanded="false">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_1_2_1" type="checkbox" id="__nav_1_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1_2_1" tabindex="0" aria-expanded="false">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation" data-md-level="3">
+        <label class="md-nav__title" for="__nav_1_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/installation/" class="md-nav__link">
+        YAML
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/helm/" class="md-nav__link">
+        Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/helm-cluster/" class="md-nav__link">
+        Helm (Cluster)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/docker/" class="md-nav__link">
+        Docker Images
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+          Components
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Components" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Components
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../components/operator/" class="md-nav__link">
+        KubeRay Operator
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../components/apiserver/" class="md-nav__link">
+        KubeRay API Server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../components/cli/" class="md-nav__link">
+        KubeRay CLI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="true">
+          Features
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Features" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Features
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rayservice/" class="md-nav__link">
+        RayService
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rayjob/" class="md-nav__link">
+        RayJob
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gcs-ft/" class="md-nav__link">
+        Ray GCS Fault Tolerance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../autoscaler/" class="md-nav__link">
+        Autoscaling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_5" tabindex="0" aria-expanded="false">
+          Networking
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Networking" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Networking
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ingress/" class="md-nav__link">
+        Ingress
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tls/" class="md-nav__link">
+        TLS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_6" type="checkbox" id="__nav_3_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_6" tabindex="0" aria-expanded="false">
+          Monitoring and Observability
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Monitoring and Observability" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_6">
+          <span class="md-nav__icon md-icon"></span>
+          Monitoring and Observability
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prometheus-grafana/" class="md-nav__link">
+        Prometheus and Grafana
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_7" tabindex="0" aria-expanded="false">
+          Security
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Security" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_7">
+          <span class="md-nav__icon md-icon"></span>
+          Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aws-eks-iam/" class="md-nav__link">
+        IAM Roles (AWS EKS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pod-security/" class="md-nav__link">
+        Pod Security
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_8" type="checkbox" id="__nav_3_8" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_8" tabindex="0" aria-expanded="true">
+          Integrations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Integrations" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_8">
+          <span class="md-nav__icon md-icon"></span>
+          Integrations
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kuberay-with-MCAD/" class="md-nav__link">
+        KubeRay with MCAD
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          KubeRay with Volcano
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        KubeRay with Volcano
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-volcano" class="md-nav__link">
+    Install Volcano
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-kuberay-operator-with-batch-scheduling" class="md-nav__link">
+    Install KubeRay Operator with Batch Scheduling
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-ray-cluster-with-volcano-scheduler" class="md-nav__link">
+    Run Ray Cluster with Volcano scheduler
+  </a>
+  
+    <nav class="md-nav" aria-label="Run Ray Cluster with Volcano scheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-gang-scheduling" class="md-nav__link">
+    Example: Gang scheduling
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    Questions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubeflow-integration/" class="md-nav__link">
+        Kubeflow Integration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3_9" type="checkbox" id="__nav_3_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_9" tabindex="0" aria-expanded="false">
+          Best Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Best Practices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_9">
+          <span class="md-nav__icon md-icon"></span>
+          Best Practices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pod-command/" class="md-nav__link">
+        Executing Commands
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../best-practice/worker-head-reconnection/" class="md-nav__link">
+        Worker Reconnection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        Troubleshooting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" tabindex="0" aria-expanded="false">
+          Design
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Design" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Design
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design/protobuf-grpc-service/" class="md-nav__link">
+        Core API and Backend Service
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" tabindex="0" aria-expanded="false">
+          Development
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Development
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/development/" class="md-nav__link">
+        Developer Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_2" tabindex="0" aria-expanded="false">
+          Release Process
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Release Process" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          Release Process
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/release/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/changelog/" class="md-nav__link">
+        Generating the Changelog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../release/helm-chart/" class="md-nav__link">
+        Releasing the Helm Chart
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-volcano" class="md-nav__link">
+    Install Volcano
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-kuberay-operator-with-batch-scheduling" class="md-nav__link">
+    Install KubeRay Operator with Batch Scheduling
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-ray-cluster-with-volcano-scheduler" class="md-nav__link">
+    Run Ray Cluster with Volcano scheduler
+  </a>
+  
+    <nav class="md-nav" aria-label="Run Ray Cluster with Volcano scheduler">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-gang-scheduling" class="md-nav__link">
+    Example: Gang scheduling
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    Questions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+
+
+
+
+
+<h1 id="kuberay-integration-with-volcano">KubeRay integration with Volcano<a class="headerlink" href="#kuberay-integration-with-volcano" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/volcano-sh/volcano">Volcano</a> is a batch scheduling system built on Kubernetes. It provides a suite of mechanisms (gang scheduling, job queues, fair scheduling policies) currently missing from Kubernetes that are commonly required by many classes of batch and elastic workloads. KubeRay's Volcano integration enables more efficient scheduling of Ray pods in multi-tenant Kubernetes environments.</p>
+<p>Note that this is a new feature. Feedback and contributions welcome.</p>
+<h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
+<h3 id="install-volcano">Install Volcano<a class="headerlink" href="#install-volcano" title="Permanent link">&para;</a></h3>
+<p>Volcano needs to be successfully installed in your Kubernetes cluster before enabling Volcano integration with KubeRay. Refer to the <a href="https://github.com/volcano-sh/volcano#quick-start-guide">Quick Start Guide</a> for Volcano installation instructions.</p>
+<h3 id="install-kuberay-operator-with-batch-scheduling">Install KubeRay Operator with Batch Scheduling<a class="headerlink" href="#install-kuberay-operator-with-batch-scheduling" title="Permanent link">&para;</a></h3>
+<p>Deploy the KubeRay Operator with the <code>--enable-batch-scheduler</code> flag to enable Volcano batch scheduling support.</p>
+<p>When installing via Helm, you can set the following in your <code>values.yaml</code> file:</p>
+<div class="highlight"><pre><span></span><code>batchScheduler:
+    enabled: true
+</code></pre></div>
+<p>Or on the command line:</p>
+<div class="highlight"><pre><span></span><code># helm install kuberay-operator --set batchScheduler.enabled=true
+</code></pre></div>
+<h2 id="run-ray-cluster-with-volcano-scheduler">Run Ray Cluster with Volcano scheduler<a class="headerlink" href="#run-ray-cluster-with-volcano-scheduler" title="Permanent link">&para;</a></h2>
+<p>Add the <code>ray.io/scheduler-name: volcano</code> label to your RayCluster CR to submit the cluster pods to Volcano for scheduling.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>apiVersion: ray.io/v1alpha1
+kind: RayCluster
+metadata:
+  name: test-cluster
+  labels:
+    ray.io/scheduler-name: volcano
+    volcano.sh/queue-name: kuberay-test-queue
+spec:
+  rayVersion: &#39;2.4.0&#39;
+  headGroupSpec:
+    rayStartParams: {}
+    replicas: 1
+    template:
+      spec:
+        containers:
+        - name: ray-head
+          image: rayproject/ray:2.4.0
+          resources:
+            limits:
+              cpu: &quot;1&quot;
+              memory: &quot;2Gi&quot;
+            requests:
+              cpu: &quot;1&quot;
+              memory: &quot;2Gi&quot;
+  workerGroupSpecs: []
+</code></pre></div>
+<p>The following labels can also be provided in the RayCluster metadata:</p>
+<ul>
+<li><code>ray.io/priority-class-name</code>: the cluster priority class as defined by Kubernetes <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#priorityclass">here</a>.</li>
+<li><code>volcano.sh/queue-name</code>: the Volcano <a href="https://volcano.sh/en/docs/queue/">queue</a> name the cluster will be submitted to.</li>
+</ul>
+<p>If autoscaling is enabled, <code>minReplicas</code> will be used for gang scheduling, otherwise the desired <code>replicas</code> will be used.</p>
+<h3 id="example-gang-scheduling">Example: Gang scheduling<a class="headerlink" href="#example-gang-scheduling" title="Permanent link">&para;</a></h3>
+<p>In this example, we'll walk through how gang scheduling works with Volcano and KubeRay.</p>
+<p>First, let's create a queue with a capacity of 4 CPUs and 6Gi of RAM:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl create -f - &lt;&lt;EOF
+apiVersion: scheduling.volcano.sh/v1beta1
+kind: Queue
+metadata:
+  name: kuberay-test-queue
+spec:
+  weight: 1
+  capability:
+    cpu: 4
+    memory: 6Gi
+EOF
+</code></pre></div>
+<p>The <strong>weight</strong> in the definition above indicates the relative weight of a queue in cluster resource division. This is useful in cases where the total <strong>capability</strong> of all the queues in your cluster exceeds the total available resources, forcing the queues to share among themselves. Queues with higher weight will be allocated a proportionally larger share of the total resources.</p>
+<p>The <strong>capability</strong> is a hard constraint on the maximum resources the queue will support at any given time. It can be updated as needed to allow more or fewer workloads to run at a time.</p>
+<p>Next we'll create a RayCluster with a head node (1 CPU + 2Gi of RAM) and two workers (1 CPU + 1Gi of RAM each), for a total of 3 CPU and 4Gi of RAM:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl create -f - &lt;&lt;EOF
+apiVersion: ray.io/v1alpha1
+kind: RayCluster
+metadata:
+  name: test-cluster-0
+  labels:
+    ray.io/scheduler-name: volcano
+    volcano.sh/queue-name: kuberay-test-queue
+spec:
+  rayVersion: &#39;2.4.0&#39;
+  headGroupSpec:
+    rayStartParams: {}
+    replicas: 1
+    template:
+      spec:
+        containers:
+        - name: ray-head
+          image: rayproject/ray:2.4.0
+          resources:
+            limits:
+              cpu: &quot;1&quot;
+              memory: &quot;2Gi&quot;
+            requests:
+              cpu: &quot;1&quot;
+              memory: &quot;2Gi&quot;
+  workerGroupSpecs:
+    - groupName: worker
+      rayStartParams: {}
+      replicas: 2
+      minReplicas: 2
+      maxReplicas: 2
+      template:
+        spec:
+          containers:
+          - name: ray-head
+            image: rayproject/ray:2.4.0
+            resources:
+              limits:
+                cpu: &quot;1&quot;
+                memory: &quot;1Gi&quot;
+              requests:
+                cpu: &quot;1&quot;
+                memory: &quot;1Gi&quot;
+EOF
+</code></pre></div>
+<p>Because our queue has a capacity of 4 CPU and 6Gi of RAM, this resource should schedule successfully without any issues. We can verify this by checking the status of our cluster's Volcano PodGroup to see that the phase is <code>Running</code> and the last status is <code>Scheduled</code>:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get podgroup ray-test-cluster-0-pg -o yaml
+
+apiVersion: scheduling.volcano.sh/v1beta1
+kind: PodGroup
+metadata:
+  creationTimestamp: &quot;2022-12-01T04:43:30Z&quot;
+  generation: 2
+  name: ray-test-cluster-0-pg
+  namespace: test
+  ownerReferences:
+  - apiVersion: ray.io/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: RayCluster
+    name: test-cluster-0
+    uid: 7979b169-f0b0-42b7-8031-daef522d25cf
+  resourceVersion: &quot;4427347&quot;
+  uid: 78902d3d-b490-47eb-ba12-d6f8b721a579
+spec:
+  minMember: 3
+  minResources:
+    cpu: &quot;3&quot;
+    memory: 4Gi
+  queue: kuberay-test-queue
+status:
+  conditions:
+  - lastTransitionTime: &quot;2022-12-01T04:43:31Z&quot;
+    reason: tasks in gang are ready to be scheduled
+    status: &quot;True&quot;
+    transitionID: f89f3062-ebd7-486b-8763-18ccdba1d585
+    type: Scheduled
+  phase: Running
+</code></pre></div>
+<p>And checking the status of our queue to see that we have 1 running job:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get queue kuberay-test-queue -o yaml
+
+apiVersion: scheduling.volcano.sh/v1beta1
+kind: Queue
+metadata:
+  creationTimestamp: &quot;2022-12-01T04:43:21Z&quot;
+  generation: 1
+  name: kuberay-test-queue
+  resourceVersion: &quot;4427348&quot;
+  uid: a6c4f9df-d58c-4da8-8a58-e01c93eca45a
+spec:
+  capability:
+    cpu: 4
+    memory: 6Gi
+  reclaimable: true
+  weight: 1
+status:
+  reservation: {}
+  running: 1
+  state: Open
+</code></pre></div>
+<p>Next we'll add an additional RayCluster with the same configuration of head / worker nodes, but a different name:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl create -f - &lt;&lt;EOF
+apiVersion: ray.io/v1alpha1
+kind: RayCluster
+metadata:
+  name: test-cluster-1
+  labels:
+    ray.io/scheduler-name: volcano
+    volcano.sh/queue-name: kuberay-test-queue
+spec:
+  rayVersion: &#39;2.4.0&#39;
+  headGroupSpec:
+    rayStartParams: {}
+    replicas: 1
+    template:
+      spec:
+        containers:
+        - name: ray-head
+          image: rayproject/ray:2.4.0
+          resources:
+            limits:
+              cpu: &quot;1&quot;
+              memory: &quot;2Gi&quot;
+            requests:
+              cpu: &quot;1&quot;
+              memory: &quot;2Gi&quot;
+  workerGroupSpecs:
+    - groupName: worker
+      rayStartParams: {}
+      replicas: 2
+      minReplicas: 2
+      maxReplicas: 2
+      template:
+        spec:
+          containers:
+          - name: ray-head
+            image: rayproject/ray:2.4.0
+            resources:
+              limits:
+                cpu: &quot;1&quot;
+                memory: &quot;1Gi&quot;
+              requests:
+                cpu: &quot;1&quot;
+                memory: &quot;1Gi&quot;
+EOF
+</code></pre></div>
+<p>Now check the status of its PodGroup to see that its phase is <code>Pending</code> and the last status is <code>Unschedulable</code>:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get podgroup ray-test-cluster-1-pg -o yaml
+
+apiVersion: scheduling.volcano.sh/v1beta1
+kind: PodGroup
+metadata:
+  creationTimestamp: &quot;2022-12-01T04:48:18Z&quot;
+  generation: 2
+  name: ray-test-cluster-1-pg
+  namespace: test
+  ownerReferences:
+  - apiVersion: ray.io/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: RayCluster
+    name: test-cluster-1
+    uid: b3cf83dc-ef3a-4bb1-9c42-7d2a39c53358
+  resourceVersion: &quot;4427976&quot;
+  uid: 9087dd08-8f48-4592-a62e-21e9345b0872
+spec:
+  minMember: 3
+  minResources:
+    cpu: &quot;3&quot;
+    memory: 4Gi
+  queue: kuberay-test-queue
+status:
+  conditions:
+  - lastTransitionTime: &quot;2022-12-01T04:48:19Z&quot;
+    message: &#39;3/3 tasks in gang unschedulable: pod group is not ready, 3 Pending,
+      3 minAvailable; Pending: 3 Undetermined&#39;
+    reason: NotEnoughResources
+    status: &quot;True&quot;
+    transitionID: 3956b64f-fc52-4779-831e-d379648eecfc
+    type: Unschedulable
+  phase: Pending
+</code></pre></div>
+<p>Because our new cluster requires more CPU and RAM than our queue will allow, even though we could fit one of the pods with the remaining 1 CPU and 2Gi of RAM, none of the cluster's pods will be placed until there is enough room for all the pods. Without using Volcano for gang scheduling in this way, one of the pods would ordinarily be placed, leading to the cluster being partially allocated, and some jobs (like <a href="https://github.com/horovod/horovod">Horovod</a> training) getting stuck waiting for resources to become available.</p>
+<p>We can see the effect this has on scheduling the pods for our new RayCluster, which are listed as <code>Pending</code>:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get pods
+
+NAME                                            READY   STATUS         RESTARTS   AGE
+test-cluster-0-worker-worker-ddfbz              1/1     Running        0          7m
+test-cluster-0-head-vst5j                       1/1     Running        0          7m
+test-cluster-0-worker-worker-57pc7              1/1     Running        0          6m59s
+test-cluster-1-worker-worker-6tzf7              0/1     Pending        0          2m12s
+test-cluster-1-head-6668q                       0/1     Pending        0          2m12s
+test-cluster-1-worker-worker-n5g8k              0/1     Pending        0          2m12s
+</code></pre></div>
+<p>If we dig into the pod details, we'll see that this is indeed because Volcano cannot schedule the gang:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl describe pod test-cluster-1-head-6668q | tail -n 3
+
+  Type     Reason            Age   From     Message
+  ----     ------            ----  ----     -------
+  Warning  FailedScheduling  4m5s  volcano  3/3 tasks in gang unschedulable: pod group is not ready, 3 Pending, 3 minAvailable; Pending: 3 Undetermined
+</code></pre></div>
+<p>Let's go ahead and delete the first RayCluster to clear up space in the queue:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl delete raycluster test-cluster-0
+</code></pre></div>
+<p>The PodGroup for the second cluster has moved to the <code>Running</code> state, as there are now enough resources available to schedule the entire set of pods:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get podgroup ray-test-cluster-1-pg -o yaml
+
+apiVersion: scheduling.volcano.sh/v1beta1
+kind: PodGroup
+metadata:
+  creationTimestamp: &quot;2022-12-01T04:48:18Z&quot;
+  generation: 9
+  name: ray-test-cluster-1-pg
+  namespace: test
+  ownerReferences:
+  - apiVersion: ray.io/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: RayCluster
+    name: test-cluster-1
+    uid: b3cf83dc-ef3a-4bb1-9c42-7d2a39c53358
+  resourceVersion: &quot;4428864&quot;
+  uid: 9087dd08-8f48-4592-a62e-21e9345b0872
+spec:
+  minMember: 3
+  minResources:
+    cpu: &quot;3&quot;
+    memory: 4Gi
+  queue: kuberay-test-queue
+status:
+  conditions:
+  - lastTransitionTime: &quot;2022-12-01T04:54:04Z&quot;
+    message: &#39;3/3 tasks in gang unschedulable: pod group is not ready, 3 Pending,
+      3 minAvailable; Pending: 3 Undetermined&#39;
+    reason: NotEnoughResources
+    status: &quot;True&quot;
+    transitionID: db90bbf0-6845-441b-8992-d0e85f78db77
+    type: Unschedulable
+  - lastTransitionTime: &quot;2022-12-01T04:55:10Z&quot;
+    reason: tasks in gang are ready to be scheduled
+    status: &quot;True&quot;
+    transitionID: 72bbf1b3-d501-4528-a59d-479504f3eaf5
+    type: Scheduled
+  phase: Running
+  running: 2
+</code></pre></div>
+<p>Checking the pods again, we see that the second cluster is now up and running:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get pods
+
+NAME                                            READY   STATUS         RESTARTS   AGE
+test-cluster-1-worker-worker-n5g8k              1/1     Running        0          9m4s
+test-cluster-1-head-6668q                       1/1     Running        0          9m4s
+test-cluster-1-worker-worker-6tzf7              1/1     Running        0          9m4s
+</code></pre></div>
+<p>Finally, we'll cleanup the remaining cluster and queue:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl delete raycluster test-cluster-1
+$ kubectl delete queue kuberay-test-queue
+</code></pre></div>
+<h2 id="questions">Questions<a class="headerlink" href="#questions" title="Permanent link">&para;</a></h2>
+<p>Reach out to @tgaddair for questions regarding usage of this integration.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>
